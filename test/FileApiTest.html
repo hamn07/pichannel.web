@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>file API test</title>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+
+        $("#fileSelect").click(function(e) {
+            if ($("#fileElem")) {
+                $("#fileElem").click();
+            }
+            e.preventDefault();
+
+        });
+        $("#fileElem").change(function(e) {
+            // 檔案(array)
+            var fileList = this.files;
+            // 檔案個數
+            var numFiles = fileList.length;
+            for (var i = 0; i < numFiles; i++) {
+                // 取得檔案物件
+                var file = fileList[i];
+                // 轉換成local url
+                var objectURL = window.URL.createObjectURL(file);
+
+                $('<img>', {
+                    id: file.name,
+                    src: objectURL,
+                    css: {
+                        'width': '10%'
+                            // 'height': 200
+                    }
+
+                }).appendTo($('body'));
+            }
+        })
+        $('#button-clone').click(function() {
+
+            var imgArr = $('img');
+            
+            for (var i = 0; i < imgArr.length; i++) {
+                $('<img>', {
+                    id: '',
+                    src: imgArr[i].src,
+                    css: {
+                        'width': '20%'
+                            // 'height': 200
+                    }
+
+                }).appendTo($('body'));
+            }
+        })
+    })
+    </script>
+</head>
+
+<body>
+    <a href="#" id="fileSelect"><img src="img/Folder-Add-01-128.png" class="icon"></a>
+    <input type="file" id="fileElem" multiple accept="image/*" style="display:none">
+    <button id="button-clone">click to clone!</button>
+</body>
+
+</html>

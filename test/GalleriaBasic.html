@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <style>
+    .galleria {
+        width: 700px;
+        height: 400px;
+        background: #000
+    }
+    </style>
+    <!-- import jQuery -->
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!-- import galleria -->
+    <script src="galleria/galleria-1.4.2.min.js"></script>
+    <script type="text/javascript">
+    function InitPage() {
+        Galleria.loadTheme('galleria/themes/classic/galleria.classic.min.js');
+        Galleria.run('.galleria');
+    }
+    </script>
+</head>
+
+<body onload="InitPage()">
+    <div class="galleria">
+        <img src="Lake-Tekapo.jpg">
+        <img src="lake-wanaka.jpg">
+        <img src="newzealandss.jpg">
+    </div>
+</body>
+
+</html>

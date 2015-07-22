@@ -1,0 +1,12 @@
+<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript">
+  $.ajax({
+    url: "jQueryAjaxJson.php",
+    type: 'POST',
+    // contentType: 'application/json; charset=utf-8',
+    datatype: "json",
+    success: function(data){
+      console.log(data);
+    }
+  });
+</script>

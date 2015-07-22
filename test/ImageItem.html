@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="../pturable.css">
+  <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+  <!-- checkout manual @http://t4t5.github.io/sweetalert/ -->
+  <script src="../bower_components/sweetalert/dist/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="../bower_components/sweetalert/dist/sweetalert.css">
+  <style type="text/css">
+    .fn {
+      display: none;
+      position: absolute;
+      background-color: #27B6E9;
+      width: 100%;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0.8;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .fn:before {
+      content: '';
+      display: inline-block;
+      vertical-align: middle;
+      height: 100%;
+    }
+
+    .fn a {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  </style>
+  <title></title>
+</head>
+
+<body>
+  <div class="image-frame">
+    <a href="">
+      <img src="../sample-image-music/20150219-currytrophy-760.jpg" style="max-height: 15em; float: left;">
+    </a>
+    <div class="caption">20150219-currytrophy-760.jpg
+      <!-- <a href="#">20150219-currytrophy-760.jpg</a> -->
+      <!-- <a href="#" style="right: 1px; float: right;"><img src="../images/Cancel-24.png"></a> -->
+    </div>
+    <div class="fn">
+      <a href="#">
+        <img src="../images/Cancel-48.png" alt="" onclick="removeImage(this)">
+      </a>
+      <a href="#">
+        <img src="../images/Text-Editor-48.png" alt="" onclick="editText(this)">
+      </a>
+    </div>
+  </div>
+  <div class="image-frame">
+    <a href="">
+      <img src="../sample-image-music/tumblr_ndm2w1B7kE1tggypqo1_500.jpg" style="max-height: 15em; float: left;">
+    </a>
+    <span class="caption">tumblr_ndm2w1B7kE1tggypqo1_500.jpg
+      <!-- <a href="#">tumblr_ndm2w1B7kE1tggypqo1_500.jpg</a> -->
+      <!-- <a href="#" style="right: 1px; float: right;"><img src="../images/Cancel-24.png"></a> -->
+    </span>
+    <div class="fn">
+      <a href="#" style="display: inline-block;vertical-align: middle;">
+        <img src="../images/Cancel-48.png" alt="" onclick="removeImage(this)">
+      </a>
+      <a href="#" style="display: inline-block;vertical-align: middle;">
+        <img src="../images/Text-Editor-48.png" alt="" onclick="editText(this)">
+      </a>
+    </div>
+  </div>
+  <script type="text/javascript">
+    function removeImage(imgIcon) {
+      swal({
+        title: "Are you sure?",
+        text: "You will not be able to recover this imaginary file!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel plx!",
+        closeOnConfirm: false,
+        closeOnCancel: false
+      }, function(isConfirm) {
+        if (isConfirm) {
+          $(imgIcon).parents('.image-frame').remove();
+          swal("Deleted!", "Your imaginary file has been deleted.", "success");
+        } else {
+          swal("Cancelled", "Your imaginary file is safe :)", "error");
+        }
+      });
+    }
+
+    function editText(imgIcon) {
+      console.log($(imgIcon).parents('.image-frame').children('.caption').text());
+      swal({
+        title: "description",
+        // text: "Write something interesting:",
+        type: "input",
+        showCancelButton: true,
+        closeOnConfirm: false,
+        animation: "slide-from-top",
+        // inputPlaceholder: "Write something",
+        inputValue: $.trim($(imgIcon).parents('.image-frame').children('.caption').text())
+      }, function(inputValue) {
+        if (inputValue === false) return false;
+        if (inputValue === "") {
+          swal.showInputError("You need to write something!");
+          return false
+        }
+        $(imgIcon).parents('.image-frame').children('.caption').text(inputValue);
+        swal("Description modified!", inputValue, "success");
+      });
+    }
+    $('.image-frame').hover(function() {
+      $(this).children('.fn').fadeIn('normal');
+    }, function() {
+      $(this).children('.fn').fadeOut('normal');
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,21 @@
+get user consent
+GET https://accounts.google.com/o/oauth2/auth?
+      scope=https://picasaweb.google.com/data/&
+      state=/profile&
+      redirect_uri=http://easyalbum.ddns.net:8080/Easy-Album/TestOAuth&
+      response_type=code&
+      client_id=846579517031-5eld53nog2h5q5bth67a89os8orm355e.apps.googleusercontent.com
+
+get token
+POST https://accounts.google.com/o/oauth2/token?
+      code=request.getParameter("code")&
+      client_id=829442868190-g6l54n2aosmp90s3hudkoc44j437k01b.apps.googleusercontent.com&
+      client_secret=2SuH_Q2C4b40iRFAiXZYkc3f&
+      redirect_uri=http://easyalbum.ddns.net:8080/lib/TestOAuth&
+      grant_type=authorization_code
+
+get data
+GET https://picasaweb.google.com/data/feed/api/user/default/album/easyalbum?
+      max-results=10&
+      alt=json&
+      access_token=jo.getString("access_token")

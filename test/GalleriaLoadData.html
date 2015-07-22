@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <style>
+    </style>
+    <!-- import jQuery -->
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!-- import galleria -->
+    <script src="galleria/galleria-1.4.2.min.js"></script>
+    <script type="text/javascript">
+    function getImages() {
+        var data = [];
+        data.push({
+            image: 'sample-image/Lake-Tekapo.jpg',
+            // thumb: 'images/image' + i + '-200px.jpg',
+            title: 'Lake-Tekapo',
+            // description: 'Image ' + i + ' Description'
+        }, {
+            image: 'sample-image/lake-wanaka.jpg',
+            // thumb: 'images/image' + i + '-200px.jpg',
+            title: 'lake-wanaka',
+            // description: 'Image ' + i + ' Description'
+        });
+        return data;
+    }
+    $(document).ready(function() {
+        Galleria.loadTheme(
+            'galleria/themes/classic/galleria.classic.min.js');
+        /* Load with the first 2 images */
+        Galleria.run('#galleria', {
+            dataSource: getImages(),
+        });
+        // Galleria.ready(function(options) {
+        //     var galleria = this;
+        //     galleria.bind('loadstart', function(e) {
+        //         /* after an image starts load, check to see
+        //            how close we are to loading more images */
+        //         var size = galleria.getDataLength();
+        //         if ((e.index + 2) > size && size <= 10) {
+        //             galleria.push(
+        //                 getImages(size + 1,
+        //                     Math.min(size + 2, 10)));
+        //         }
+        //     })
+        // });
+        var fileSelect = document.getElementById("fileSelect");
+        fileSelect.addEventListener("click", function(e) {
+            var galleria = Galleria.get(0);
+            var data = [];
+            data.push({
+                image: 'newzealandss.jpg',
+                // thumb: 'images/image' + i + '-200px.jpg',
+                title: 'newzealandss',
+                // description: 'Image ' + i + ' Description'
+            });
+            galleria.push(data);
+            // if (fileElem) {
+            //     fileElem.click();
+            // }
+            // e.preventDefault(); // prevent navigation to "#"
+        }, false);
+    });
+
+    function InitPage() {
+
+
+    }
+    </script>
+</head>
+
+<body onload="InitPage()">
+    <div id="galleria" style="height: 500px;"></div>
+    <a href="#" id="fileSelect">Select some files</a>
+</body>
+
+</html>

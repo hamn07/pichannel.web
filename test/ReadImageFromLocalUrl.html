@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <style type="text/css">
+/*    #imgFrame {
+    	position: relative;
+    	top: 200px;
+        background-color: yellow;
+        width: 200px;
+        height: 200px;
+    }*/
+    </style>
+    <script type="text/javascript">
+    function InitPage() {
+        var fileSelect = document.getElementById("fileSelect"),
+            fileElem = document.getElementById("fileElem");
+
+        fileSelect.addEventListener("click", function(e) {
+            if (fileElem) {
+                fileElem.click();
+            }
+            e.preventDefault(); // prevent navigation to "#"
+        }, false);
+
+
+
+        // $("#imgFrame").html("content");
+    }
+
+    function handleFiles(fileList) {
+        // 檔案個數
+        var numFiles = fileList.length;
+        // 餵list給內容區塊
+        var list = document.createElement("ul");
+        document.getElementById("imgFrame").appendChild(list);
+        
+        for (var i = 0; i < numFiles; i++) {
+
+        	// 取得檔案物件
+            var file = fileList[i];
+            // 轉換成local url(for img.src參照使用)
+            var objectURL = window.URL.createObjectURL(file);
+            // 建立img物件，並將src設定為local url
+            var img = document.createElement("img");
+            img.src = objectURL;
+            alert(objectURL);
+            img.onload = function() {
+                window.URL.revokeObjectURL(this.src);
+            }
+            // 建立li物件，並將img物件餵給它
+            var li = document.createElement("li");
+            list.appendChild(li);
+            li.appendChild(img);
+        }
+    }
+    </script>
+</head>
+
+<body onload="InitPage()">
+    <section id="page" data-role="page">
+        <header data-role="header">
+            <a href="#" id="fileSelect" class="ui-btn-left">Select some files</a>
+            <h1>Header</h1>
+        </header>
+        <!-- /header -->
+        <article role="main" id="imgFrame" class="ui-content">
+        </article>
+        <!-- /content -->
+        <footer data-role="footer">
+            <h1>Footer</h1>
+        </footer>
+        <!-- /footer -->
+    </section>
+    <!-- /page -->
+    <div></div>
+    <input type="file" id="fileElem" multiple accept="image/*" style="display:none" onchange="handleFiles(this.files)">
+</body>
+
+</html>

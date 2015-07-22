@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <!-- load jQuery -->
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!-- css of this page -->
+    <style type="text/css">
+    #wrapper {
+        width: 940px;
+        margin: 0 auto;
+
+    }
+    
+    header {
+        text-align: center;
+        padding: 70px 0;
+    }
+    
+    nav {
+        /*background: url(img/nav-bg.png) no-repeat;*/
+        box-shadow: 0 5px 6px #d8d9db;
+        border: 1px solid #d8d9db;
+        background-color: #fff;
+        /*background-color: green;*/
+        height: 60px;
+        width: 960px;
+        margin-left: -10px;
+        line-height: 50px;
+        position: relative;
+    }
+    
+    #content {
+        background: #fff;
+        height: 1500px;
+        /* presetting the height */
+        
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    }
+    
+    .fixed {
+        position: fixed;
+    }
+    </style>
+    <script type="text/javascript">
+    $(document).ready(function() {
+
+        //Calculate the height of <header>
+        //Use outerHeight() instead of height() if have padding
+        var aboveHeight = $('header').outerHeight();
+
+        // when scroll
+        $(window).scroll(function() {
+
+            //if scrolled down more than the header's height
+            if ($(window).scrollTop() > aboveHeight) {
+
+                // if yes, add "fixed" class to the <nav>
+                // add padding top to the #content (value is same as the height of the nav)
+                $('nav').addClass('fixed').css('top', '0').next().css('padding-top', '60px');
+            } else {
+
+                // when scroll up or less than aboveHeight, remove the "fixed" class, and the padding-top
+                $('nav').removeClass('fixed').next().css('padding-top', '0');
+            }
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <header>
+            <h1>Simple Smart Sticky Navigation Bar</h1>
+        </header>
+        <nav>
+            <p>Navigation Content</p>
+        </nav>
+        <div id="content">
+            <p>In most U.S. K-12 public schools, a local school board votes on which textbooks to purchase from a selection of books that have been approved by the state Department of Education. Teachers receive the books to give to the students for each subject. Teachers are usually not required to use textbooks, however, and many prefer to use other materials instead.</p>
+            <p>In most U.S. K-12 public schools, a local school board votes on which textbooks to purchase from a selection of books that have been approved by the state Department of Education. Teachers receive the books to give to the students for each subject. Teachers are usually not required to use textbooks, however, and many prefer to use other materials instead.</p>
+            <p>In most U.S. K-12 public schools, a local school board votes on which textbooks to purchase from a selection of books that have been approved by the state Department of Education. Teachers receive the books to give to the students for each subject. Teachers are usually not required to use textbooks, however, and many prefer to use other materials instead.</p>
+            <p>In most U.S. K-12 public schools, a local school board votes on which textbooks to purchase from a selection of books that have been approved by the state Department of Education. Teachers receive the books to give to the students for each subject. Teachers are usually not required to use textbooks, however, and many prefer to use other materials instead.</p>
+            <p>In most U.S. K-12 public schools, a local school board votes on which textbooks to purchase from a selection of books that have been approved by the state Department of Education. Teachers receive the books to give to the students for each subject. Teachers are usually not required to use textbooks, however, and many prefer to use other materials instead.</p>
+            <p>In most U.S. K-12 public schools, a local school board votes on which textbooks to purchase from a selection of books that have been approved by the state Department of Education. Teachers receive the books to give to the students for each subject. Teachers are usually not required to use textbooks, however, and many prefer to use other materials instead.</p>
+            <p>In most U.S. K-12 public schools, a local school board votes on which textbooks to purchase from a selection of books that have been approved by the state Department of Education. Teachers receive the books to give to the students for each subject. Teachers are usually not required to use textbooks, however, and many prefer to use other materials instead.</p>
+            <p>In most U.S. K-12 public schools, a local school board votes on which textbooks to purchase from a selection of books that have been approved by the state Department of Education. Teachers receive the books to give to the students for each subject. Teachers are usually not required to use textbooks, however, and many prefer to use other materials instead.</p>
+            <p>In most U.S. K-12 public schools, a local school board votes on which textbooks to purchase from a selection of books that have been approved by the state Department of Education. Teachers receive the books to give to the students for each subject. Teachers are usually not required to use textbooks, however, and many prefer to use other materials instead.</p>
+            <p>In most U.S. K-12 public schools, a local school board votes on which textbooks to purchase from a selection of books that have been approved by the state Department of Education. Teachers receive the books to give to the students for each subject. Teachers are usually not required to use textbooks, however, and many prefer to use other materials instead.</p>
+            <p>In most U.S. K-12 public schools, a local school board votes on which textbooks to purchase from a selection of books that have been approved by the state Department of Education. Teachers receive the books to give to the students for each subject. Teachers are usually not required to use textbooks, however, and many prefer to use other materials instead.</p>
+            <p>In most U.S. K-12 public schools, a local school board votes on which textbooks to purchase from a selection of books that have been approved by the state Department of Education. Teachers receive the books to give to the students for each subject. Teachers are usually not required to use textbooks, however, and many prefer to use other materials instead.</p>
+            <p>In most U.S. K-12 public schools, a local school board votes on which textbooks to purchase from a selection of books that have been approved by the state Department of Education. Teachers receive the books to give to the students for each subject. Teachers are usually not required to use textbooks, however, and many prefer to use other materials instead.</p>
+            <p>In most U.S. K-12 public schools, a local school board votes on which textbooks to purchase from a selection of books that have been approved by the state Department of Education. Teachers receive the books to give to the students for each subject. Teachers are usually not required to use textbooks, however, and many prefer to use other materials instead.</p>
+            <p>In most U.S. K-12 public schools, a local school board votes on which textbooks to purchase from a selection of books that have been approved by the state Department of Education. Teachers receive the books to give to the students for each subject. Teachers are usually not required to use textbooks, however, and many prefer to use other materials instead.</p>
+            <p>In most U.S. K-12 public schools, a local school board votes on which textbooks to purchase from a selection of books that have been approved by the state Department of Education. Teachers receive the books to give to the students for each subject. Teachers are usually not required to use textbooks, however, and many prefer to use other materials instead.</p>
+            <p>In most U.S. K-12 public schools, a local school board votes on which textbooks to purchase from a selection of books that have been approved by the state Department of Education. Teachers receive the books to give to the students for each subject. Teachers are usually not required to use textbooks, however, and many prefer to use other materials instead.</p>
+            <p>In most U.S. K-12 public schools, a local school board votes on which textbooks to purchase from a selection of books that have been approved by the state Department of Education. Teachers receive the books to give to the students for each subject. Teachers are usually not required to use textbooks, however, and many prefer to use other materials instead.</p>
+            <p>In most U.S. K-12 public schools, a local school board votes on which textbooks to purchase from a selection of books that have been approved by the state Department of Education. Teachers receive the books to give to the students for each subject. Teachers are usually not required to use textbooks, however, and many prefer to use other materials instead.</p>
+        </div>
+    </div>
+</body>
+
+</html>

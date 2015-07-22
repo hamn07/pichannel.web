@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style type="text/css">
+    /* 個別相片div */
+    
+    .zitem {
+        /*width: 200px;*/
+        /*height: 200px;*/
+        
+        border: 4px solid #222;
+        margin: 5px 5px 0px 0;
+        padding: 0px;
+        /* required to hide the image after resized */
+        
+        overflow: hidden;
+        /* for child absolute position */
+        
+        position: relative;
+        /* display div in line */
+        
+        float: left;
+    }
+    /* 個別相片說明div */
+    
+    .caption {
+        width: 125px;
+        height: 30px;
+        background: #000;
+        color: #fff;
+        font-weight: bold;
+        /* fix it at the bottom */
+        
+        position: absolute;
+        bottom: -1px;
+        /* fix IE issue */
+        
+        left: 0;
+        /* opacity setting */
+        
+        filter: alpha(opacity=70);
+        /* ie  */
+        
+        -moz-opacity: 0.7;
+        /* old mozilla browser like netscape  */
+        
+        -khtml-opacity: 0.7;
+        /* for really really old safari */
+        
+        opacity: 0.7;
+        /* css standard, currently it works in most modern browsers like firefox,  */
+    }
+    /* 個別相片說明連結 */
+    
+    .zitem .caption a:first-child {
+        text-decoration: none;
+        color: #fff;
+        font-size: 12px;
+        /* add spacing and make the whole row clickable*/
+        
+        padding: 5px;
+        display: inline-block;
+    }
+    </style>
+    <title></title>
+</head>
+
+<body>
+    <div class="zitem">
+        <a href="#"><img src="sample-image/Lake-Tekapo.jpg" style="max-height: 15em;"></a>
+        <div class="caption" style="display: none;"><a href="#">tumblr_ndm2w1B7kE1tggypqo1_500.jpg</a>
+            <a href="#" style="right: 1px; float: right;"><img src="img/Cancel-24.png"></a>
+        </div>
+    </div>
+    <div class="zitem">
+        <img src="sample-image/Lake-Tekapo.jpg" alt="" style="max-height: 15em;"></div>
+    <img src="sample-image/tumblr_ndm2w1B7kE1tggypqo1_500.jpg" alt="" style="max-height: 15em;">
+    <div style="border-style:solid; border-size:1px; display: inline-block">
+        <img src="http://i.imgur.com/FwgZFNn.jpg" style="float:left;max-height:15em;" class="hoverZoomLink">
+    </div>
+</body>
+<script>
+</script>
+
+</html>
