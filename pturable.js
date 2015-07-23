@@ -58,14 +58,16 @@
             // 轉換成local url
             var objectURL = window.URL.createObjectURL(file);
             var rand = Math.floor((Math.random()*100000)+3);
+            console.log(file);
             // 上傳到server
             $.ajax({
-              url: "upload.php?rand="+rand,
+              // url: "upload.php?rand="+rand,
+              url: "dispatcher.php?rand="+rand,
               // url: "http://localhost/api/user/hamn07?apiKey=henrykey&max-result=10",
               type: "POST",
               data: file,
               processData: false, //Work around #1
-              contentType: file.type, //Work around #2
+              contentType: 'multipart/form-data',//file.type, //Work around #2
               datatype: "json",
               success: function(img){
                   // console.log($(".image-frame[id='"+img.id+"'] > img"));

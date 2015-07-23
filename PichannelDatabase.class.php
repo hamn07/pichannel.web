@@ -2,7 +2,9 @@
 // ref: http://wiki.hashphp.org/PDO_Tutorial_for_MySQL_Developers
 class PichannelDatabase {
     private $db;
-
+// 	private $s_domain_name = "http://ec2-52-26-138-212.us-west-2.compute.amazonaws.com";
+	private $s_domain_name = "http://localhost";
+    
     function  __construct(){
       $this->db = new PDO("mysql:host=localhost;dbname=pichannel;charset=utf8;port=3306", "root", "wheel11");
       // $db->exec("set names utf8");
@@ -92,7 +94,7 @@ sqlText;
     function queryPosts($user_id){
       $sql = <<<sqlText
       SELECT FROM_UNIXTIME(post_unixtimestamp_original) post_time,
-             CONCAT("http://localhost/img-repo/",SUBSTR(image_sha1,1,2),"/",SUBSTR(image_sha1,3),".jpg") image_src,
+             CONCAT("$this->s_domain_name","/img-repo/",SUBSTR(image_sha1,1,2),"/",SUBSTR(image_sha1,3),".jpg") image_src,
              text
         FROM post
        WHERE user_id = :user_id;
