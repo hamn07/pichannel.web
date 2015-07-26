@@ -1,13 +1,16 @@
 <?php
 session_start();
 
+// 取得domain_name
+$s_api_domain_name = parse_ini_file("conf.ini")['api_domain_name'];
+
 $s_user_id = isset($_GET['user'])?$_GET['user']:"hamn07";
 $_SESSION["user_id"]=$s_user_id;
 
 
 $ch = curl_init();
 $options = array(
-		CURLOPT_URL=>"http://localhost/api/user/" . $s_user_id . "?apiKey=key1&max-result=10",
+		CURLOPT_URL=>$s_api_domain_name . "/api/user/" . $s_user_id . "?apiKey=key1&max-result=10",
 		CURLOPT_RETURNTRANSFER=>true,
 );
 curl_setopt_array($ch, $options);

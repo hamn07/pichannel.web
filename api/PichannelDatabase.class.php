@@ -1,11 +1,14 @@
 <?php
-// ref: http://wiki.hashphp.org/PDO_Tutorial_for_MySQL_Developers
 class PichannelDatabase {
     private $db;
 // 	private $s_domain_name = "http://ec2-52-26-138-212.us-west-2.compute.amazonaws.com";
-	private $s_domain_name = "http://localhost";
-    
+	private $s_domain_name;
     function  __construct(){
+      // 取得domain_name
+      $this->s_domain_name = parse_ini_file("conf.ini")['host_domain_name'];	
+
+      
+      // 建立database connection of the server
       $this->db = new PDO("mysql:host=localhost;dbname=pichannel;charset=utf8;port=3306", "root", "wheel11");
       // $db->exec("set names utf8");
 
@@ -113,7 +116,11 @@ sqlText;
     function queryMusicList(){
 
     }
-
+	
+    function getDomainName() {
+    	return $this->s_domain_name;
+    }
+    
     function __destruct(){
       $db = null;
     }
