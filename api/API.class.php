@@ -63,6 +63,15 @@ abstract class API
 
         switch($this->method) {
         case 'DELETE':
+        	// php沒有提供$_DELETE，所以預處理傳過來的資料，將之解到$_DELETE
+        	parse_str(file_get_contents("php://input"), $_DELETE);
+        	foreach ($_DELETE as $key => $value)
+        	{
+        		unset($_DELETE[$key]);
+        	
+        		$_DELETE[str_replace('amp;', '', $key)] = $value;
+        	}
+            $this->request = $this->_cleanInputs($_DELETE);
             break;
         case 'POST':
             $this->request = $this->_cleanInputs($_POST);
@@ -71,8 +80,16 @@ abstract class API
             $this->request = $this->_cleanInputs($_GET);
             break;
         case 'PUT':
-            $this->request = $this->_cleanInputs($_GET);
-            $this->file = file_get_contents("php://input");
+        	// php沒有提供$_PUT，所以預處理傳過來的資料，將之解到$_PUT
+        	parse_str(file_get_contents("php://input"), $_PUT);
+        	foreach ($_PUT as $key => $value)
+        	{
+        		unset($_PUT[$key]);
+        	
+        		$_PUT[str_replace('amp;', '', $key)] = $value;
+        	}
+            $this->request = $this->_cleanInputs($_PUT);
+//             $this->file = file_get_contents("php://input");
             break;
         default:
             $this->_response('Invalid Method', 405);

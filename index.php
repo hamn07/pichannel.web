@@ -15,7 +15,8 @@ $options = array(
 );
 curl_setopt_array($ch, $options);
 
-$arr_posts = json_decode( curl_exec($ch) , true);
+// 使用array_reverse將最新上傳的圖片排列在最前面
+$arr_posts = array_reverse(json_decode( curl_exec($ch) , true));
 
 curl_close($ch);
 
@@ -45,6 +46,7 @@ curl_close($ch);
 
 <body>
     <div id="wrapper">
+        <!-- 上方功能選單  -->
         <nav>
             <a href="#" id="fileSelect"><img src="images/Folder-Add-01-128.png" class="icon"></a>
             <input type="file" id="fileElem" multiple accept="image/*" style="display:none">
@@ -57,7 +59,8 @@ curl_close($ch);
             <a href="#" id="audioSelect"><img src="images/Document-Music-01-128.png" class="icon"></a>
             <input type="file" id="audioElem" accept="audio/*" style="display:none">
         </nav>
-        <div id="contentEnlarge" class="enlarge"></div>
+<!--         <div id="contentEnlarge" class="enlarge"></div> -->
+        <!--圖片顯示區 -->
         <div id="content"></div>
     </div>
     <!-- load lightbox -->
@@ -68,10 +71,10 @@ curl_close($ch);
     <script type="text/javascript" src="./pturable.js"></script>
 	<script type="text/javascript">
 	<?php
-	
+
 	foreach ($arr_posts as $post){
 	?>
-		myFuncRenderImage(0,'<?=$post['image_src']?>','<?=$post['text']?>',false);
+		myFuncRenderImage(<?=$post['id']?>, null,'<?=$post['image_src']?>','<?=$post['text']?>',false);
 	<?php
 	}
 	?>

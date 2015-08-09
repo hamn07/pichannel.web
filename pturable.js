@@ -33,12 +33,12 @@
 
 
       // 由網際網路位址加入圖片
-      $("#urlSelect").click(function(e) {
-          var imgUrl = prompt("Please enter image url:", "http://");
-          if (imgUrl != null) {
-            myFuncRenderImage(null, imgUrl, imgUrl.filename(), false);
-          }
-        })
+      // $("#urlSelect").click(function(e) {
+      //     var imgUrl = prompt("Please enter image url:", "http://");
+      //     if (imgUrl != null) {
+      //       myFuncRenderImage(null, imgUrl, imgUrl.filename(), false);
+      //     }
+      //   })
         // 由client端filesystem加入圖片
       $("#fileSelect").click(function(e) {
         if ($("#fileElem")) {
@@ -57,21 +57,26 @@
             var file = fileList[i];
             // 轉換成local url
             var objectURL = window.URL.createObjectURL(file);
+            // 取亂數，作為ajax操作相對應的image使用
             var rand = Math.floor((Math.random()*100000)+3);
-            console.log(file);
+
             // 上傳到server
             $.ajax({
-              // url: "upload.php?rand="+rand,
               url: "dispatcher.php?rand="+rand,
-              // url: "http://localhost/api/user/hamn07?apiKey=henrykey&max-result=10",
               type: "POST",
               data: file,
               processData: false, //Work around #1
               contentType: 'multipart/form-data',//file.type, //Work around #2
               datatype: "json",
               success: function(img){
-                  // console.log($(".image-frame[id='"+img.id+"'] > img"));
+                  // 將image src指向遠端server
                   $(".image-frame[id='"+img.id+"']>img").attr('src',img.url);
+                  // 設定data-post-id
+                  $(".image-frame[id='"+img.id+"']").attr('data-post-id',img.postId);
+                  // 回收local image url
+                  window.URL.revokeObjectURL($(".image-frame[id='"+img.id+"']>img").attr('src'));
+                  // id是取亂數設定讓ajax操作使用，request結束後一併將之移除
+                  $(".image-frame[id='"+img.id+"']").removeAttr('id');
               },
               error: function(){alert("Failed");},
               // Work around #3
@@ -93,7 +98,7 @@
               }
             });
 
-            myFuncRenderImage(rand, objectURL, file.name, true);
+            myFuncRenderImage(null, rand, objectURL, file.name, true);
           }
         })
         // 由client端filesystem加入音樂
@@ -255,13 +260,16 @@
     // url: 圖片位址
     // fileName: 圖片說明
     // isLocal: 是否為local image upload
-    function myFuncRenderImage(rand, url, fileName, isLocal) {
+    function myFuncRenderImage(postId, rand, url, fileName, isLocal) {
 
 
       // 建立div物件，並將img物件餵給它
       var imgItem = document.createElement("div");
       imgItem.className = "image-frame";
-      imgItem.id = rand;
+      if (rand) {
+        imgItem.id = rand; // for ajax upload progress
+      }
+      imgItem.setAttribute('data-post-id',postId); // for update and delete
       //The .hover() method, when passed a single function, will execute that handler for both mouseenter and mouseleave events.
       $(imgItem).hover(function() {
           $(this).children('.fn').fadeIn('normal');
@@ -279,7 +287,7 @@
         css: {
           'max-width': 'auto',
           'max-height': '15em',
-          'float': 'left',
+          // 'float': 'left',
         },
         on: {
           load: function() {
@@ -291,7 +299,7 @@
 
       // 建立caption
       $('<div>', {
-        class: 'caption',
+        class: 'desc',
         text: fileName
       }).appendTo(imgItem);
 
@@ -324,14 +332,31 @@
                 closeOnCancel: false
               }, function(isConfirm) {
                 if (isConfirm) {
-                  $imgIcon.parents('.image-frame').remove();
-                  swal({
-                    title: 'Deleted!',
-                    text: 'Your imaginary file has been deleted.',
-                    type: 'success',
-                    timer: 2000,
-                    showConfirmButton: false
+
+                  var postId =  $imgIcon.parents('.image-frame').attr('data-post-id');
+                  $.ajax({
+                    url: 'dispatcher.php',
+                    type: 'DELETE',
+                    // data: 'postId='+postId+'&text='+inputValue,
+                    data: {
+                      postId: postId,
+                      // text: inputValue
+                    },
+                    success: function(msg) {
+                      swal({
+                        title: 'Deleted!',
+                        // text: 'Your imaginary file has been deleted.',
+                        text: msg,
+                        type: 'success',
+                        timer: 2000,
+                        showConfirmButton: false
+                      });
+                    },
                   });
+
+
+
+                  $imgIcon.parents('.image-frame').remove();
                 } else {
                   swal({
                     title: 'Cancelled',
@@ -359,20 +384,32 @@
                 showCancelButton: true,
                 closeOnConfirm: false,
                 animation: "slide-from-top",
-                inputValue: $.trim($imgIcon.parents('.image-frame').children('.caption').text())
+                inputValue: $.trim($imgIcon.parents('.image-frame').children('.desc').text())
               }, function(inputValue) {
                 if (inputValue === false) return false;
                 if (inputValue === "") {
                   swal.showInputError("You need to write something!");
                   return false
                 }
-                $imgIcon.parents('.image-frame').children('.caption').text(inputValue);
-                swal({
-                  title: "Description modified!",
-                  text: inputValue,
-                  type: 'success',
-                  timer: 2000,
-                  showConfirmButton: false
+                var postId =  $imgIcon.parents('.image-frame').attr('data-post-id');
+                $imgIcon.parents('.image-frame').children('.desc').text(inputValue);
+                $.ajax({
+                  url: 'dispatcher.php',
+                  type: 'PUT',
+                  // data: 'postId='+postId+'&text='+inputValue,
+                  data: {
+                    postId: postId,
+                    text: inputValue
+                  },
+                  success: function(msg) {
+                    swal({
+                      title: "Description modified!",
+                      text: inputValue,
+                      type: 'success',
+                      timer: 2000,
+                      showConfirmButton: false
+                    });
+                  }
                 });
               });
             }

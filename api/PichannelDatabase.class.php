@@ -18,6 +18,7 @@ class PichannelDatabase {
       $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
     }
 
+
     // 新增照片資訊(檔名、拍攝時間)
     function insertImage($sha1,$timestamp){
 
@@ -42,6 +43,9 @@ sqlText;
       $stmt = null;
       return $num;
     }
+
+
+
     // 新增post
     function insertPost($timestamp,$user_id,$image_sha1){
       $sql = <<<sqlText
@@ -72,33 +76,75 @@ sqlText;
         }
       }
       $stmt = null;
-      return $num;
+      
+      return $this->db->lastInsertId();
     }
-    function updatePostText($timestamp,$user_id,$text){
+    
+    
+    
+    // 修改說明文字
+    function updatePostText($postId,$userId,$text){
       $sql = <<<sqlText
       UPDATE post
-         SET text = ?
-       WHERE timestamp = ?
-         AND user_id = ?
+         SET text = :text
+       WHERE id = :postId
+         AND user_id = :userId
 sqlText;
-
+	  
+      $result = $text;
       $stmt = $this->db->prepare($sql);
-      $num = $stmt->execute(array($text,$timestamp,$user_id));
+      $stmt->bindValue(':text',$text);
+      $stmt->bindValue(':postId',$postId);
+      $stmt->bindValue(':userId',$userId);
+	  
+      try {
+        $num = $stmt->execute();
+
+      } catch (PDOException $ex) {
+
+      	$result = $ex->getMessage();
+
+      }
       $stmt = null;
-      return $num;
+      return $result;
     }
+    
+    // 刪除上傳圖片post
+    function deletePost($postId,$userId){
+      $sql = <<<sqlText
+      DELETE FROM post
+       WHERE id = :postId
+         AND user_id = :userId
+sqlText;
+    	
+      $result = "success";
+      $stmt = $this->db->prepare($sql);
+      $stmt->bindValue(':postId',$postId);
+      $stmt->bindValue(':userId',$userId);
+    	
+      try {
+      	$num = $stmt->execute();
+      
+      } catch (PDOException $ex) {
+      
+      	$result = $ex->getMessage();
+      
+      }
+      $stmt = null;
+      return $result;
+    }
+    
     function updateMusic($timestamp,$user_id){
 
     }
-    function deletePost($timestamp,$user_id){
 
-    }
     // 取得所有的posts
     function queryPosts($user_id){
       $sql = <<<sqlText
       SELECT FROM_UNIXTIME(post_unixtimestamp_original) post_time,
              CONCAT("$this->s_domain_name","/img-repo/",SUBSTR(image_sha1,1,2),"/",SUBSTR(image_sha1,3),".jpg") image_src,
-             text
+             text,
+             id
         FROM post
        WHERE user_id = :user_id
        ORDER BY post_unixtimestamp_original DESC;

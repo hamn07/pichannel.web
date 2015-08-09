@@ -51,8 +51,15 @@
       position: relative;
       float: left;
     }
-    /* 個別圖片說明div */
 
+    /* 個別圖片說明div */
+    .desc {
+      text-align: center;
+      position: relative;
+      height: 1em;
+    }
+
+    /* 個別圖片說明div */
     .caption {
       /*width: 125px;*/
       height: 30px;
@@ -77,7 +84,6 @@
       /* css standard, currently it works in most modern browsers like firefox,  */
     }
     /* 個別圖片description */
-
     .image-frame .caption a:first-child {
       text-decoration: none;
       color: #fff;
