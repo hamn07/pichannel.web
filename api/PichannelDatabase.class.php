@@ -76,12 +76,12 @@ sqlText;
         }
       }
       $stmt = null;
-      
+
       return $this->db->lastInsertId();
     }
-    
-    
-    
+
+
+
     // 修改說明文字
     function updatePostText($postId,$userId,$text){
       $sql = <<<sqlText
@@ -90,13 +90,13 @@ sqlText;
        WHERE id = :postId
          AND user_id = :userId
 sqlText;
-	  
+
       $result = $text;
       $stmt = $this->db->prepare($sql);
       $stmt->bindValue(':text',$text);
       $stmt->bindValue(':postId',$postId);
       $stmt->bindValue(':userId',$userId);
-	  
+
       try {
         $num = $stmt->execute();
 
@@ -108,7 +108,7 @@ sqlText;
       $stmt = null;
       return $result;
     }
-    
+
     // 刪除上傳圖片post
     function deletePost($postId,$userId){
       $sql = <<<sqlText
@@ -116,24 +116,24 @@ sqlText;
        WHERE id = :postId
          AND user_id = :userId
 sqlText;
-    	
+
       $result = "success";
       $stmt = $this->db->prepare($sql);
       $stmt->bindValue(':postId',$postId);
       $stmt->bindValue(':userId',$userId);
-    	
+
       try {
       	$num = $stmt->execute();
-      
+
       } catch (PDOException $ex) {
-      
+
       	$result = $ex->getMessage();
-      
+
       }
       $stmt = null;
       return $result;
     }
-    
+
     function updateMusic($timestamp,$user_id){
 
     }

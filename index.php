@@ -16,7 +16,11 @@ $options = array(
 curl_setopt_array($ch, $options);
 
 // 使用array_reverse將最新上傳的圖片排列在最前面
-$arr_posts = array_reverse(json_decode( curl_exec($ch) , true));
+$arr_posts = json_decode( curl_exec($ch) , true);
+if ($arr_posts) {
+	$arr_posts = array_reverse($arr_posts);
+}
+
 
 curl_close($ch);
 
@@ -29,7 +33,8 @@ curl_close($ch);
 <html>
 
 <head>
-    <title></title>
+		<meta charset="utf-8">
+    <title>pichannel</title>
     <!-- load jQuery -->
     <!--<script src="js/jquery-2.1.4.min.js"></script>-->
     <script src="./bower_components/jquery/dist/jquery.min.js"></script>
@@ -71,10 +76,10 @@ curl_close($ch);
     <script type="text/javascript" src="./pturable.js"></script>
 	<script type="text/javascript">
 	<?php
-
+	$i=0;
 	foreach ($arr_posts as $post){
 	?>
-		myFuncRenderImage(<?=$post['id']?>, null,'<?=$post['image_src']?>','<?=$post['text']?>',false);
+		myFuncRenderImage(<?=$post['id']?>, null,'<?=$post['image_src']?>',"<?=$post['text']?>",false);
 	<?php
 	}
 	?>
