@@ -95,7 +95,8 @@ class MyAPI extends API
      		file_put_contents($s_filepath, $s_file_contents);
      	}
 
-     	// 通知subscription有新相片
+     	// 通知subscription有新相片 
+     	// note: 不明原因於insert post image之後會無法作用，因此放置於此
      	$this->obj_db->updateNewPostsFlag($this->User->getUserID(), 1);
      	
      	// 取得拍攝時間
