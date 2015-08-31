@@ -150,7 +150,7 @@ sqlText;
        ORDER BY post_unixtimestamp_original DESC;
 sqlText;
 
-
+	  
       $stmt = $this->db->prepare($sql);
       $stmt->bindValue(':user_id',$user_id);
       $stmt->execute(array($user_id));
@@ -159,6 +159,48 @@ sqlText;
 
 
       return $rows;
+    }
+    function checkNewPostsFlag($user_id,$subscription) {
+      $sql = <<<sqlText
+      SELECT BIN(has_new_posts+0) has_new_posts
+      	FROM subscription
+       WHERE user_id = :user_id
+         AND subscription = :subscription
+sqlText;
+      
+      $stmt = $this->db->prepare($sql);
+      $stmt->bindValue(':user_id',$user_id);
+      $stmt->bindValue(':subscription',$subscription);
+      $stmt->execute();
+      $row  = $stmt->fetch(PDO::FETCH_ASSOC);
+      $stmt = null;
+      return $row;
+    }
+    function updateNewPostsFlag($user_id,$subscription,$flag) {
+    	  $sql = <<<sqlText
+      UPDATE subscription
+    	     SET has_new_posts = :flag
+        WHERE user_id = :user_id
+         AND subscription = :subscription
+sqlText;
+    	
+    	  $result = "success";
+    	  $stmt = $this->db->prepare($sql);
+    	  $stmt->bindValue(':user_id',$user_id);
+    	  $stmt->bindValue(':subscription',$subscription);
+    	  $stmt->bindValue(':flag', $flag);
+    	  try {
+    	  	$num = $stmt->execute();
+    	  
+    	  } catch (PDOException $ex) {
+    	  
+    	  	$result = $ex->getMessage();
+    	  
+    	  }
+    	  $stmt = null;
+    	  return $result;
+    	
+    	
     }
     function queryMusicList(){
 

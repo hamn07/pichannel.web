@@ -45,12 +45,26 @@ class MyAPI extends API
 	            break;
 	        // 取得此user所有post
 	        case 'GET':
-	        	return $this->obj_db->queryPosts($this->User->getUserID());
-	            break;
+	        	  switch ($this->args[0]) {
+	        	  	case 'subscription':
+	        	  		return $this->obj_db->checkNewPostsFlag($this->User->getUserID(), $this->args[1]);
+	        	  		break;
+	        	  	default:
+	        	  		return $this->obj_db->queryPosts($this->User->getUserID());
+	        	  		break;
+	        	  }
+	        	  
 	        // 修改說明文字
 	        case 'PUT':
-	        	return $this->obj_db->updatePostText($args[1], $this->User->getUserID(), $this->request["text"]);
-	            break;
+	        	  switch ($this->args[0]) {
+	        	  	case 'subscription':
+					return $this->obj_db->updateNewPostsFlag($this->User->getUserID(), $this->args[1] , $this->request['flag']);
+	        	  		break;
+	        	  	default:
+	        	  		return $this->obj_db->updatePostText($args[1], $this->User->getUserID(), $this->request["text"]);
+	        	  		break;
+	        	  }
+	        	  
 	        default:
 	            break;
      	}

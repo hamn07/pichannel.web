@@ -16,8 +16,8 @@ if (isset($_GET['ajax'])) {
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-  <script src="http://creativecouple.github.com/jquery-timing/jquery-timing.min.js"></script>
+  <script src="jquery-1.8.2.min.js"></script>
+  <script src="jquery-timing.min.js"></script>
   <script>
   $(function() {
     $.repeat(1000, function() {
@@ -30,5 +30,6 @@ if (isset($_GET['ajax'])) {
 </head>
 <body>
   <div id="tail">Starting up...</div>
+  <div id="fourth1"></div>
 </body>
 </html>

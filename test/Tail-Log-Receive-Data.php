@@ -4,3 +4,4 @@
   date_default_timezone_set('Asia/Taipei');
   $s_datetime = date('m/d/Y h:i:s a', time());
   file_put_contents ("Tail-Log.log","$s_datetime [$s_device] $s_data\n",FILE_APPEND);
+  echo 'OK';

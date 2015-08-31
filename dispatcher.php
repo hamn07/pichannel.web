@@ -8,7 +8,7 @@ if (isset($_SESSION['user_id'])) {
 	
 } else {
 	// go to login page
-
+    $s_user_id = 'hamn07';
 }
 
 $s_api_domain_name = parse_ini_file("conf.ini")['api_domain_name'];
@@ -19,6 +19,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
 	case "POST":
 		// 取得圖片內容
 		$s_file_contents = file_get_contents('php://input');
+		if ($s_file_contents=="") {
+			$s_file_contents = file_get_contents($_FILES['picture']['tmp_name']);
+		}
 
 		// 使用curl上傳圖片
 		$ch = curl_init();
