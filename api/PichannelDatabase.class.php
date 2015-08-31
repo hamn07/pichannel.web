@@ -162,7 +162,10 @@ sqlText;
     }
     function checkNewPostsFlag($user_id,$subscription) {
       $sql = <<<sqlText
-      SELECT BIN(has_new_posts+0) has_new_posts
+      SELECT CASE has_new_posts
+      		   WHEN 0 THEN 'false'
+      		   ELSE 'true'
+      		 END AS has_new_posts
       	FROM subscription
        WHERE user_id = :user_id
          AND subscription = :subscription
@@ -176,22 +179,51 @@ sqlText;
       $stmt = null;
       return $row;
     }
-    function updateNewPostsFlag($user_id,$subscription,$flag) {
-    	  $sql = <<<sqlText
+    function updateNewPostsFlag() {
+    	
+    	  switch (func_num_args()) {
+    	  	case 2:
+    	  		$sql = <<<sqlText
       UPDATE subscription
     	     SET has_new_posts = :flag
-        WHERE user_id = :user_id
+       WHERE subscription = :subscription
+sqlText;
+    	  		$subscription = func_get_arg(0);
+    	  		$flag         = func_get_arg(1);
+    	  		$result = "success";
+    	  		$stmt = $this->db->prepare($sql);
+    	  		$stmt->bindValue(':subscription',$subscription);
+    	  		$stmt->bindValue(':flag', $flag, PDO::PARAM_INT);
+    	  		break;
+    	  		
+    	  	case 3:
+    	  		$sql = <<<sqlText
+      UPDATE subscription
+    	     SET has_new_posts = :flag
+       WHERE user_id = :user_id
          AND subscription = :subscription
 sqlText;
+    	  		$user_id = func_get_arg(0);
+    	  		$subscription = func_get_arg(1);
+    	  		$flag = func_get_arg(2);
+    	  		$result = "success";
+    	  		$stmt = $this->db->prepare($sql);
+    	  		$stmt->bindValue(':user_id',$user_id);
+    	  		$stmt->bindValue(':subscription',$subscription);
+    	  		$stmt->bindValue(':flag', $flag, PDO::PARAM_INT);
+    	  			
+    	  		break;
+    	  	default:
+    	  		return;
+    	  }
     	
-    	  $result = "success";
-    	  $stmt = $this->db->prepare($sql);
-    	  $stmt->bindValue(':user_id',$user_id);
-    	  $stmt->bindValue(':subscription',$subscription);
-    	  $stmt->bindValue(':flag', $flag);
+    	  
+    	  
+    	  
+    	  
+ 
     	  try {
     	  	$num = $stmt->execute();
-    	  
     	  } catch (PDOException $ex) {
     	  
     	  	$result = $ex->getMessage();
@@ -202,6 +234,7 @@ sqlText;
     	
     	
     }
+
     function queryMusicList(){
 
     }

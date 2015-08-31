@@ -22,7 +22,7 @@ VALUES(
 CREATE TABLE IF NOT EXISTS subscription (
   user_id VARCHAR(254) NOT NULL,
   subscription VARCHAR(254) NOT NULL,
-  has_new_posts BIT(1)          );
+  has_new_posts TINYINT(1)          );
 
 ALTER TABLE subscription
   ADD PRIMARY KEY (user_id,subscription);
@@ -31,7 +31,7 @@ INSERT INTO subscription
 VALUES(
   "hamn07",
   "hamn07",
-  b'1'
+  1
 );
 
 

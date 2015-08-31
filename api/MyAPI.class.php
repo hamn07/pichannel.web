@@ -35,31 +35,36 @@ class MyAPI extends API
      */
      protected function user($args) {
      	switch ($this->method) {
+     		
      		// 刪除圖片post
 	        case 'DELETE':
 	        	return $this->obj_db->deletePost($args[1], $this->User->getUserID());
 	            break;
+	        
 	        // 上傳圖片post
 	        case 'POST':
 	        	return $this->createNewPost();
 	            break;
-	        // 取得此user所有post
+	        
 	        case 'GET':
-	        	  switch ($this->args[0]) {
+	        	  switch  (isset($args[0])?$args[0]:"") {
 	        	  	case 'subscription':
-	        	  		return $this->obj_db->checkNewPostsFlag($this->User->getUserID(), $this->args[1]);
+	        	  		return $this->obj_db->checkNewPostsFlag($this->User->getUserID(), $args[1]);
 	        	  		break;
+	        	    // 取得此user所有post
 	        	  	default:
 	        	  		return $this->obj_db->queryPosts($this->User->getUserID());
 	        	  		break;
 	        	  }
 	        	  
-	        // 修改說明文字
+	        
 	        case 'PUT':
-	        	  switch ($this->args[0]) {
+	        	  switch (isset($args[0])?$args[0]:"") {
 	        	  	case 'subscription':
-					return $this->obj_db->updateNewPostsFlag($this->User->getUserID(), $this->args[1] , $this->request['flag']);
+//                     return $this->obj_db->updateNewPostsFlag($this->User->getUserID(), 0);
+					return $this->obj_db->updateNewPostsFlag($this->User->getUserID(), $args[1] , $this->request['flag']);
 	        	  		break;
+	        	  	// 修改說明文字
 	        	  	default:
 	        	  		return $this->obj_db->updatePostText($args[1], $this->User->getUserID(), $this->request["text"]);
 	        	  		break;
@@ -68,14 +73,6 @@ class MyAPI extends API
 	        default:
 	            break;
      	}
-
-
-//         if ($this->method == 'GET') {
-
-//             return "Your name is " . $this->verb;
-//         } else {
-//             return "Only accepts GET requests";
-//         }
      }
 
      private function createNewPost() {
@@ -98,15 +95,21 @@ class MyAPI extends API
      		file_put_contents($s_filepath, $s_file_contents);
      	}
 
+     	// 通知subscription有新相片
+     	$this->obj_db->updateNewPostsFlag($this->User->getUserID(), 1);
+     	
      	// 取得拍攝時間
      	$arr_exif_data = @exif_read_data($s_filepath);
-     	$s_exif_unixtimestamp_original = $arr_exif_data?strtotime($arr_exif_data['DateTimeOriginal']):null;
+     	$s_exif_unixtimestamp_original = $arr_exif_data?strtotime(isset($arr_exif_data['DateTimeOriginal'])?$arr_exif_data['DateTimeOriginal']:""):null;
 
      	// 存進DB
-     	$this->obj_db->insertImage($s_file_contents_sha1,$s_exif_unixtimestamp_original);
+      	$this->obj_db->insertImage($s_file_contents_sha1,$s_exif_unixtimestamp_original);
      	$lastInsertId = $this->obj_db->insertPost(time(),$this->User->getUserID(),$s_file_contents_sha1);
-
-
+		
+     	// 通知subscription有新相片
+//      	$this->obj_db->updateNewPostsFlag($this->User->getUserID(), 1);
+     	
+     	
      	header("Content-Type: application/json", true);
      	$s_urlpath = $this->s_host_domain . $s_dir . "/" . $s_filename . $s_file_extention;
      	
@@ -115,6 +118,8 @@ class MyAPI extends API
      		"url"=>$s_urlpath,
      		"lastInsertId"=>$lastInsertId,
      	);
+     	
+
 //      	return $s_urlpath . "," . $lastInsertId;
 //      	return '{"url": "' . $s_urlpath . '", "data-post-id":"' . $lastInsertId . '"}';
      }
