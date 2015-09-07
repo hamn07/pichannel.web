@@ -137,7 +137,22 @@ sqlText;
     function updateMusic($timestamp,$user_id){
 
     }
-
+	function getLastestPost($user_id){
+		$sql = <<<sqlText
+      SELECT CONCAT("$this->s_domain_name","/img-repo/",SUBSTR(image_sha1,1,2),"/",SUBSTR(image_sha1,3),".jpg") image_src
+        FROM post
+       WHERE user_id = :user_id
+       ORDER BY post_unixtimestamp_original DESC;
+sqlText;
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(':user_id',$user_id);
+		$stmt->execute();
+		$row = $stmt->fetch(PDO::FETCH_ASSOC);
+		$stmt = null;
+		
+		
+		return $row;
+	}
     // 取得所有的posts
     function queryPosts($user_id){
       $sql = <<<sqlText

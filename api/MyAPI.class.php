@@ -51,6 +51,9 @@ class MyAPI extends API
 	        	  	case 'subscription':
 	        	  		return $this->obj_db->checkNewPostsFlag($this->User->getUserID(), $args[1]);
 	        	  		break;
+	        	  	case 'camera':
+	        	  		return $this->obj_db->getLastestPost($this->User->getUserID());
+	        	  		break;
 	        	    // 取得此user所有post
 	        	  	default:
 	        	  		return $this->obj_db->queryPosts($this->User->getUserID());
