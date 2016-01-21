@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+
+			var json_obj = {  "api_key"	:	"abcdefg",
+							  "omid"	:	"500"
+						   };
+
+			$.ajax({
+				url:    "http://www.tomin.tw/api/TOMIN/omidTransformation.php",
+				type:   "post",
+				data:	JSON.stringify(json_obj),
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				//crossDomain: true,
+				/* headers: {
+                        "Authorization": "Basic " + btoa("api" + ":" + "dvp")
+                }, */
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(
+                            'Authorization',
+                            'Basic YXBpOmR2cA==');
+                },
+				success:  function( result ) {
+
+					//var json_obj = JSON && JSON.parse(result["ret_desc"]) || $.parseJSON(result["ret_desc"]);
+					//console.log("get response code => " + result["ret_code"]);
+					//console.log("get response desc => " + result["ret_desc"]);
+
+					for(var key in json_obj) {
+						console.log(key + " => " + json_obj[key]);
+					}
+				},
+				error:    function(  result ) {
+				  console.log("ajax error => " + result.statusText);
+				}
+		    });
+		</script>
+	</body>
+</html>
