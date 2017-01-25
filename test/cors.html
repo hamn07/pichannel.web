@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>CORS test</title>
+  <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+</head>
+
+<body>
+  <script type="text/javascript">
+    var username = "api";
+    var password = "dvp";
+    // var url = "http://localhost/index.php";
+    // var url = "http://stackoverflow.com/questions/9692067/jquery-ajax-calls-with-http-basic-authentication";
+    var url = "http://www.tomin.tw/api/TOMIN/index.php";
+    // var url = "http://10.0.1.149/index.php";
+    // var url = "http://ec2-52-26-138-212.us-west-2.compute.amazonaws.com/api/user/hamn07?apiKey=aadg";
+    // var json_obj = {  "member_id"	:	"Samma"   };
+    $.ajax({
+      url: url,
+      type: 'post',
+      // data:	JSON.stringify(json_obj),
+      // dataType: 'json',
+      // contentType: 'application/json',
+      // beforeSend: function(xhr) {
+      //     xhr.setRequestHeader("Authorization", "Basic "+btoa(username+':'+password));
+      // },
+      // username: username,
+      // password: password,
+      // xhrFields: {
+      //   withCredentials: true
+      // },
+      headers: {
+        "Authorization": "Basic " + btoa(username + ":" + password)
+      },
+      // crossDomain: true,
+      success: function(json) {
+        console.log(json);
+      },
+      error: function(err) {
+        console.log("ajax error => " + err.statusText);
+      }
+    });
+  </script>
+</body>
+
+</html>
